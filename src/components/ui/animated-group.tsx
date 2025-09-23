@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode, ElementType } from 'react';
 import { motion, Variants } from 'motion/react';
 import React from 'react';
 
@@ -23,8 +23,8 @@ export type AnimatedGroupProps = {
     item?: Variants;
   };
   preset?: PresetType;
-  as?: React.ElementType;
-  asChild?: React.ElementType;
+  as?: ElementType;
+  asChild?: ElementType;
 };
 
 const defaultContainerVariants: Variants = {
@@ -100,6 +100,13 @@ const addDefaultVariants = (variants: Variants) => ({
   visible: { ...defaultItemVariants.visible, ...variants.visible },
 });
 
+// Type guard to check if the 'as' value is a valid intrinsic element string
+function isIntrinsicElement(
+  tag: unknown
+): tag is keyof React.JSX.IntrinsicElements {
+  return typeof tag === 'string';
+}
+
 function AnimatedGroup({
   children,
   className,
@@ -115,19 +122,25 @@ function AnimatedGroup({
   const containerVariants = variants?.container || selectedVariants.container;
   const itemVariants = variants?.item || selectedVariants.item;
 
-  const MotionComponent = React.useMemo(
-    () => motion.create(as as keyof JSX.IntrinsicElements),
-    [as]
-  );
-  const MotionChild = React.useMemo(
-    () => motion.create(asChild as keyof JSX.IntrinsicElements),
-    [asChild]
-  );
+  const MotionComponent = React.useMemo(() => {
+    if (isIntrinsicElement(as)) {
+      return motion.create(as);
+    }
+    // If as is a React component, return it wrapped with motion
+    return motion(as as ElementType);
+  }, [as]);
+
+  const MotionChild = React.useMemo(() => {
+    if (isIntrinsicElement(asChild)) {
+      return motion.create(asChild);
+    }
+    return motion(asChild as ElementType);
+  }, [asChild]);
 
   return (
     <MotionComponent
-      initial='hidden'
-      animate='visible'
+      initial="hidden"
+      animate="visible"
       variants={containerVariants}
       className={className}
     >
@@ -141,3 +154,4 @@ function AnimatedGroup({
 }
 
 export { AnimatedGroup };
+
