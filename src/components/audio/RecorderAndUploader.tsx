@@ -82,11 +82,10 @@ export default function RecorderAndUploader() {
           onClick={handleUpload}
           disabled={loading || !file}
           size="lg"
-          className={`px-6 py-3 text-sm !text-white rounded disabled:opacity-100 ${
-            loading || !file
-              ? "bg-gray-700 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-900"
-          }`}
+          className={`px-6 py-3 text-sm !text-white rounded disabled:opacity-100 transition-all duration-300 ${loading || !file
+              ? "bg-zinc-800 cursor-not-allowed"
+              : "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(124,58,237,0.5)] hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]"
+            }`}
         >
           {loading ? "Uploading..." : "Upload & Match"}
         </Button>
@@ -94,24 +93,33 @@ export default function RecorderAndUploader() {
 
       {/* Result as Card */}
       {result && (
-        <Card className="max-w-lg">
+        <Card className="max-w-lg border-primary/20 bg-primary/5 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Song Match Result</CardTitle>
+            <CardTitle className="text-primary">Song Match Result</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>{result}</p>
+            <p className="font-medium text-lg">{result}</p>
           </CardContent>
         </Card>
       )}
 
       {/* Error as Alert Dialog */}
       <AlertDialog open={openError} onOpenChange={setOpenError}>
-        <AlertDialogContent>
+        <AlertDialogContent className="border-destructive/50 bg-destructive/10 backdrop-blur-md">
           <AlertDialogHeader>
-            <AlertDialogTitle>Error</AlertDialogTitle>
-            <AlertDialogDescription>{error}</AlertDialogDescription>
+            <AlertDialogTitle className="text-destructive flex items-center gap-2">
+              Error
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-destructive-foreground/90 font-medium">
+              {error}
+            </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogAction onClick={() => setOpenError(false)}>OK</AlertDialogAction>
+          <AlertDialogAction
+            onClick={() => setOpenError(false)}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
+            OK
+          </AlertDialogAction>
         </AlertDialogContent>
       </AlertDialog>
     </div>

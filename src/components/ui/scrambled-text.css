@@ -1,0 +1,12 @@
+.text-block {
+    /* margin: 7vw; removed margin to fit in hero */
+    /* max-width: 800px; removed max-width */
+    /* font-family: monospace; removed to inherit font */
+    /* font-size: clamp(14px, 4vw, 32px); removed to inherit size */
+    /* color: #fff; removed to inherit color */
+}
+
+.char {
+    will-change: transform;
+    display: inline-block;
+}
