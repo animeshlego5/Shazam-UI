@@ -41,7 +41,7 @@ const ScrambledText = ({
             type: 'chars',
             charsClass: 'char'
         });
-        // @ts-ignore - GSAP types might conflict or need specific casting
+        // @ts-expect-error - GSAP types might conflict or need specific casting
         charsRef.current = split.chars;
 
         charsRef.current.forEach((c) => {
@@ -75,11 +75,9 @@ const ScrambledText = ({
 
         // Need to cast to any or HTMLElement to add event listener if refs mismatch
         const el = rootRef.current;
-        // @ts-ignore
         el.addEventListener('pointermove', handleMove);
 
         return () => {
-            // @ts-ignore
             el.removeEventListener('pointermove', handleMove);
             split.revert();
         };
