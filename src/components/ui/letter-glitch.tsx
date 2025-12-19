@@ -141,6 +141,7 @@ export const LetterGlitch = ({
         animationRef.current = requestAnimationFrame(draw);
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         const cleanup = setupCanvas();
         animationRef.current = requestAnimationFrame(draw);
