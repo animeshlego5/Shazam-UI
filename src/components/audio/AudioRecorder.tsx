@@ -67,7 +67,7 @@ export default function AudioRecorder({
           onClick={startRecording}
           size="lg"
           disabled={isLoading}
-          className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
+          className="px-6 py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded-lg hover:from-blue-700 hover:to-violet-700 transition-all duration-200 shadow-[0_0_20px_rgba(37,99,235,0.5)] hover:shadow-[0_0_30px_rgba(37,99,235,0.7)] disabled:opacity-50"
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
