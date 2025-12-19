@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import AudioRecorder from "./AudioRecorder";
+import SongCard, { SongMetadata } from "./SongCard";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -17,13 +18,39 @@ export default function RecorderAndUploader() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
+  const [songMetadata, setSongMetadata] = useState<SongMetadata | null>(null);
+  const [matchScore, setMatchScore] = useState<number | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const [openError, setOpenError] = useState(false);
 
   const handleRecordingComplete = (recordedFile: File) => {
     setFile(recordedFile);
     setResult(null);
+    setSongMetadata(null);
+    setMatchScore(undefined);
     setError(null);
+  };
+
+  const fetchItunesMetadata = async (title: string, artist: string) => {
+    try {
+      const params = new URLSearchParams({ title, artist });
+      const response = await fetch(`/api/itunes-search?${params}`);
+
+      if (!response.ok) {
+        console.error("iTunes API error:", response.statusText);
+        return null;
+      }
+
+      const data = await response.json();
+
+      if (data.found) {
+        return data as SongMetadata;
+      }
+      return null;
+    } catch (err) {
+      console.error("Error fetching iTunes metadata:", err);
+      return null;
+    }
   };
 
   const handleUpload = async () => {
@@ -35,6 +62,8 @@ export default function RecorderAndUploader() {
 
     setLoading(true);
     setResult(null);
+    setSongMetadata(null);
+    setMatchScore(undefined);
     setError(null);
 
     try {
@@ -53,9 +82,20 @@ export default function RecorderAndUploader() {
       const data = await response.json();
 
       if (data.match) {
-        setResult(
-          `Match found: ${data.title} by ${data.artist} (score: ${data.score})`
-        );
+        // Store the match score
+        setMatchScore(data.score);
+
+        // Fetch iTunes metadata for rich display
+        const metadata = await fetchItunesMetadata(data.title, data.artist);
+
+        if (metadata) {
+          setSongMetadata(metadata);
+        } else {
+          // Fallback to simple text result if iTunes fails
+          setResult(
+            `Match found: ${data.title} by ${data.artist} (score: ${data.score})`
+          );
+        }
       } else {
         setResult(data.message || "No match found");
       }
@@ -83,16 +123,21 @@ export default function RecorderAndUploader() {
           disabled={loading || !file}
           size="lg"
           className={`px-6 py-3 text-sm !text-white rounded disabled:opacity-100 transition-all duration-300 ${loading || !file
-              ? "bg-zinc-800 cursor-not-allowed"
-              : "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(124,58,237,0.5)] hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]"
+            ? "bg-zinc-800 cursor-not-allowed"
+            : "bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(124,58,237,0.5)] hover:shadow-[0_0_30px_rgba(124,58,237,0.7)]"
             }`}
         >
-          {loading ? "Uploading..." : "Upload & Match"}
+          {loading ? "Matching..." : "Upload & Match"}
         </Button>
       </div>
 
-      {/* Result as Card */}
-      {result && (
+      {/* Rich Song Card with iTunes metadata */}
+      {songMetadata && (
+        <SongCard metadata={songMetadata} matchScore={matchScore} />
+      )}
+
+      {/* Fallback text result (when iTunes fails or no match) */}
+      {result && !songMetadata && (
         <Card className="max-w-lg border-primary/20 bg-primary/5 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-primary">Song Match Result</CardTitle>
