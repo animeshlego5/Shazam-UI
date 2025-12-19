@@ -6,7 +6,7 @@ import PillNav from "@/components/PillNav";
 const navItems = [
     { label: "About", href: "#" },
     { label: "Journey", href: "#" },
-    { label: "Github", href: "#" },
+    { label: "Github", href: "https://github.com/animeshlego5/Shazam-UI" },
 ];
 
 export function OvalHeader() {
