@@ -4,8 +4,8 @@ import { FlashlightText } from "@/components/ui/flashlight-text";
 import PillNav from "@/components/PillNav";
 
 const navItems = [
-    { label: "About", href: "#" },
-    { label: "Journey", href: "#" },
+    { label: "About", href: "#about" },
+    { label: "Journey", href: "#journey" },
     { label: "Github", href: "https://github.com/animeshlego5/Shazam-UI" },
 ];
 

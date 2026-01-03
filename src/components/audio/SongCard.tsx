@@ -67,7 +67,7 @@ export default function SongCard({ metadata, matchScore }: SongCardProps) {
             {/* Match percentage displayed below the card */}
             {matchScore !== undefined && (
                 <p className="text-white text-lg font-medium">
-                    Match: {Math.round(matchScore * 100)}%
+                    Match: {Math.min(100, Math.round(matchScore * 100))}%
                 </p>
             )}
 
