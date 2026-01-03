@@ -72,15 +72,18 @@ export default function Footer() {
                         © {new Date().getFullYear()} Animesh Gosain. Built with Next.js & Tailwind CSS.
                     </p>
 
-                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5">
+                    <a
+                        href="mailto:animeshlego5@gmail.com"
+                        className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 transition-colors group"
+                    >
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                         </span>
-                        <span className="text-white/60 text-xs font-medium">
+                        <span className="text-white/60 text-xs font-medium group-hover:text-white transition-colors">
                             Open to Internships
                         </span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </footer>
