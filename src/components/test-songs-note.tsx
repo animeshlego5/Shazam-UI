@@ -5,10 +5,29 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const testSongs = [
     { artist: "Lil Uzi Vert", title: "20 Min" },
+    { artist: "Cartoon", title: "On & On" },
 ];
 
-export default function TestSongsNote() {
-    const [isOpen, setIsOpen] = useState(false);
+export default function TestSongsNote({
+    isOpen: externalIsOpen,
+    onToggle: externalOnToggle
+}: {
+    isOpen?: boolean;
+    onToggle?: () => void;
+}) {
+    const [internalIsOpen, setInternalIsOpen] = useState(false);
+
+    // Use external control if provided, otherwise internal state
+    const isControlled = externalIsOpen !== undefined;
+    const isOpen = isControlled ? externalIsOpen : internalIsOpen;
+
+    const handleToggle = () => {
+        if (externalOnToggle) {
+            externalOnToggle();
+        } else {
+            setInternalIsOpen(!internalIsOpen);
+        }
+    };
 
     return (
         <div className="fixed bottom-4 right-4 z-50">
@@ -39,12 +58,12 @@ export default function TestSongsNote() {
             </AnimatePresence>
 
             <motion.button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleToggle}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-medium transition-colors ${isOpen
-                        ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
-                        : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/70"
+                    ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                    : "bg-white/5 text-white/50 border border-white/10 hover:bg-white/10 hover:text-white/70"
                     }`}
             >
                 <svg

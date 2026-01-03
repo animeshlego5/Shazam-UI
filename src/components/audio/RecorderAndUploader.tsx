@@ -14,7 +14,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function RecorderAndUploader() {
+interface RecorderAndUploaderProps {
+  onShowTestSongs?: () => void;
+}
+
+export default function RecorderAndUploader({ onShowTestSongs }: RecorderAndUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
@@ -97,7 +101,12 @@ export default function RecorderAndUploader() {
           );
         }
       } else {
-        setResult(data.message || "No match found");
+        const message = data.message || "No match found";
+        setResult(`No suitable match found.\nPlease check the available test songs and try a longer or clearer audio sample.`);
+        // Automatically open the test songs list if no match is found
+        if (onShowTestSongs) {
+          onShowTestSongs();
+        }
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -143,7 +152,7 @@ export default function RecorderAndUploader() {
             <CardTitle className="text-primary">Song Match Result</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-medium text-lg">{result}</p>
+            <p className="font-medium text-lg whitespace-pre-line">{result}</p>
           </CardContent>
         </Card>
       )}

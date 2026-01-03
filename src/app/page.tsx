@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react'
 import HeroSection from '@/components/hero-section'
 import AboutSection from '@/components/about-section'
 import JourneySection from '@/components/journey-section'
@@ -7,6 +10,8 @@ import { LetterGlitch } from '@/components/ui/letter-glitch'
 import { OvalHeader } from '@/components/oval-header'
 
 export default function Home() {
+  const [isTestSongsOpen, setIsTestSongsOpen] = useState(false);
+
   return (
     <>
       <OvalHeader />
@@ -22,12 +27,15 @@ export default function Home() {
           />
         </div>
 
-        <HeroSection />
+        <HeroSection onShowTestSongs={() => setIsTestSongsOpen(true)} />
         <AboutSection />
         <JourneySection />
         <Footer />
       </main>
-      <TestSongsNote />
+      <TestSongsNote
+        isOpen={isTestSongsOpen}
+        onToggle={() => setIsTestSongsOpen(!isTestSongsOpen)}
+      />
     </>
   )
 }

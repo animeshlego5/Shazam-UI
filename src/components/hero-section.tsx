@@ -27,7 +27,11 @@ const transitionVariants: { item: Variants } = {
   },
 };
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  onShowTestSongs?: () => void;
+}
+
+export default function HeroSection({ onShowTestSongs }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden min-h-[100vh] flex flex-col justify-center [--color-primary-foreground:var(--color-white)] [--color-primary:var(--color-green-600)]">
 
@@ -91,7 +95,7 @@ export default function HeroSection() {
                   sparkSize={15}
                   className="w-full flex justify-center"
                 >
-                  <RecorderAndUploader />
+                  <RecorderAndUploader onShowTestSongs={onShowTestSongs} />
                 </ClickSpark>
               </div>
 
