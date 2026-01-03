@@ -1,37 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 Project is Live at- https://notespy.vercel.app/
 
-## Getting Started
+# NoteSpy - Project Documentation
 
-First, run the development server:
+## 1. Overview
+**NoteSpy** is a modern, high-performance music recognition web application. Inspired by Shazam, it allows users to identify songs by recording audio directly from their browser or uploading audio files. The project emphasizes a premium user experience with advanced animations and a clean, futuristic interface.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 2. Technical Stack
+The project is built using a robust and modern stack:
+
+- **Frontend Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **Animations**: 
+  - **GSAP (GreenSock Animation Platform)**: Used for complex timeline animations, scrambling text effects, and custom transformations.
+  - **Framer Motion**: Powering layout transitions and reactive UI elements.
+- **Audio Processing**: Web Audio API for recording and client-side processing.
+- **Backend Matching**: Python-based Shazam API wrapper (hosted on Render).
+
+## 3. Project Structure
+The project follows a standard Next.js directory structure with a heavy focus on reusable UI components:
+
+```text
+/src
+  /app                # Main application routes and API endpoints
+    /api/match-proxy  # Node.js proxy to bypass CORS for audio matching
+    /layout.tsx       # Root layout with providers and global styles
+    /page.tsx         # Main landing page (integrates all sections)
+  /components         # Core UI and Feature components
+    /audio            # Audio recording, uploading, and result handling
+    /layout           # Structural layout components (Theme, Nav)
+    /ui               # Reusable primitive and effect-heavy components
+    about-section.tsx # "How it works" accordion
+    hero-section.tsx  # Main call-to-action and primary recognition UI
+    footer.tsx        # Footer with social links and recruitment status
+  /lib                # Shared utilities (Tailwind merges, etc.)
+  /styles             # Global CSS and Tailwind theme configurations
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 4. How it Works (Technical Flow)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Step 1: Audio Capture
+The user can capture audio in two ways:
+1. **Recording**: Uses the browser's `MediaRecorder` API to capture a high-quality PCM/WAV buffer from the microphone.
+2. **Uploading**: Standard file input restricted to audio formats (`.mp3`, `.wav`, `.m4a`).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Step 2: The Matching Proxy
+To protect keys and bypass CORS issues, the frontend sends the audio `FormData` to a local Next.js route (`/api/match-proxy`). This proxy then forwards the request to the dedicated music recognition backend.
 
-## Learn More
+### Step 3: Fingerprinting & Search
+The backend (external to this repository) processes the raw audio, generates a unique "fingerprint," and queries it against a massive database of song signatures.
 
-To learn more about Next.js, take a look at the following resources:
+### Step 4: UI Representation
+Once a match is found:
+- **Scramble Effect**: Text dynamically "decodes" using GSAP `ScrambleTextPlugin`.
+- **Spotlight/Flashlight**: Results are presented with decorative spotlight effects that follow the mouse or pulse automatically.
+- **Song Cards**: Display metadata retrieved from the matching service, including album art and links.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 5. Key Features & Animations
+- **Global Flashlight Synchronization**: All decorative "flashlight" effects across the site are synchronized to a global timer, ensuring a cohesive visual pulse.
+- **Reactive Navigation**: A custom `PillNav` component that uses physics-like animations to follow the active state.
+- **Mobile-First Responsiveness**: Every component is built with Tailwind's mobile-first breakpoints, ensuring a seamless experience on phones.
+- **Recruitment Status**: A subtle, pulsing "Open to Internships" indicator in the footer, acting as a live status badge.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 6. How to Run Locally
+1. Clone the repository.
+2. Install dependencies: `npm install`.
+3. Start the dev server: `npm run dev`.
+4. Open [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*Note: This document was automatically generated by Antigravity (AI coding assistant) for NoteSpy.*
