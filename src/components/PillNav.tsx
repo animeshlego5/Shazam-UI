@@ -239,6 +239,8 @@ const PillNav = ({
                                     <a
                                         role="menuitem"
                                         href={item.href}
+                                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                                        rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                                         className={`pill${activeHref === item.href ? ' is-active' : ''}`}
                                         aria-label={item.ariaLabel || item.label}
                                         onMouseEnter={() => handleEnter(i)}
