@@ -13,6 +13,9 @@ const journeyData = [
                 enableTextBeam={true}
                 className="text-xl md:text-5xl font-bold text-white/80"
                 spotlightSize={80}
+                enableAutoTrigger={true}
+                autoTriggerInitialDelay={1000}
+                autoTriggerDelay={2500}
             >
                 Curiosity
             </FlashlightText>
@@ -38,6 +41,9 @@ const journeyData = [
                 enableTextBeam={true}
                 className="text-xl md:text-5xl font-bold text-white/80"
                 spotlightSize={80}
+                enableAutoTrigger={true}
+                autoTriggerInitialDelay={1000}
+                autoTriggerDelay={2500}
             >
                 Fingerprinting
             </FlashlightText>
@@ -63,6 +69,9 @@ const journeyData = [
                 enableTextBeam={true}
                 className="text-xl md:text-5xl font-bold text-white/80"
                 spotlightSize={80}
+                enableAutoTrigger={true}
+                autoTriggerInitialDelay={1000}
+                autoTriggerDelay={2500}
             >
                 KNN
             </FlashlightText>
@@ -88,6 +97,9 @@ const journeyData = [
                 enableTextBeam={true}
                 className="text-xl md:text-5xl font-bold text-white/80"
                 spotlightSize={80}
+                enableAutoTrigger={true}
+                autoTriggerInitialDelay={1000}
+                autoTriggerDelay={2500}
             >
                 Scaling
             </FlashlightText>
@@ -113,6 +125,9 @@ const journeyData = [
                 enableTextBeam={true}
                 className="text-xl md:text-5xl font-bold text-white/80"
                 spotlightSize={80}
+                enableAutoTrigger={true}
+                autoTriggerInitialDelay={1000}
+                autoTriggerDelay={2500}
             >
                 Inspiration
             </FlashlightText>

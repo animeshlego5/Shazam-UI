@@ -45,6 +45,9 @@ export default function HeroSection({ onShowTestSongs }: HeroSectionProps) {
                 enableTextBeam={true}
                 className="text-7xl md:text-8xl font-bold tracking-tighter text-white font-syne"
                 spotlightSize={150}
+                enableAutoTrigger={true}
+                autoTriggerInitialDelay={1000}
+                autoTriggerDelay={2500}
               >
                 NoteSpy
               </FlashlightText>

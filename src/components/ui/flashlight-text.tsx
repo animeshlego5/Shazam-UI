@@ -9,6 +9,10 @@ interface FlashlightTextProps {
   className?: string;
   spotlightSize?: number;
   enableTextBeam?: boolean;
+  enableAutoTrigger?: boolean;
+  autoTriggerDelay?: number;
+  autoTriggerInitialDelay?: number;
+  autoTriggerDuration?: number;
 }
 
 export function FlashlightText({
@@ -16,12 +20,90 @@ export function FlashlightText({
   className,
   spotlightSize = 100,
   enableTextBeam = false,
+  enableAutoTrigger = false,
+  autoTriggerDelay = 2500,
+  autoTriggerInitialDelay = 1000,
+  autoTriggerDuration = 2000,
 }: FlashlightTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
+  const [isAutoAnimating, setIsAutoAnimating] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
+  const startInactivityTimer = (delay?: number) => {
+    if (!enableAutoTrigger) return;
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    // If delay is explicitly provided, use it. Otherwise use the standard repeat delay.
+    const timeoutDuration = delay !== undefined ? delay : autoTriggerDelay;
+
+    timerRef.current = setTimeout(() => {
+      setIsAutoAnimating(true);
+      setOpacity(1);
+      startTimeRef.current = Date.now();
+      animateAutoMovement();
+    }, timeoutDuration);
+  };
+
+  const animateAutoMovement = () => {
+    if (!containerRef.current) return;
+    const now = Date.now();
+    const elapsed = now - (startTimeRef.current || now);
+    const progress = Math.min(elapsed / autoTriggerDuration, 1);
+
+    // Ease out quart
+    const ease = 1 - Math.pow(1 - progress, 4);
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const startX = -spotlightSize; // Start just outside left
+    const endX = rect.width + spotlightSize; // End just outside right
+    const currentX = startX + (endX - startX) * ease;
+
+    // Center Y
+    const centerY = rect.height / 2;
+
+    setPosition({ x: currentX, y: centerY });
+
+    if (progress < 1) {
+      animationFrameRef.current = requestAnimationFrame(animateAutoMovement);
+    } else {
+      setIsAutoAnimating(false);
+      setOpacity(0);
+      startInactivityTimer(); // Restart cycle with default delay
+    }
+  };
+
+  const stopAutoAnimation = () => {
+    setIsAutoAnimating(false);
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    // Initial start with specific initial delay
+    startInactivityTimer(autoTriggerInitialDelay);
+    return () => stopAutoAnimation();
+  }, [enableAutoTrigger, autoTriggerInitialDelay]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isAutoAnimating) {
+      stopAutoAnimation();
+    }
+    // Restart timer on movement
+    if (timerRef.current) clearTimeout(timerRef.current);
+    // Only restart timer if we leave logic is separate, but usually moving means active.
+    // If we want it to trigger again after hold, we set it on leave. 
+    // But let's just clear while moving.
+
     if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
@@ -31,6 +113,7 @@ export function FlashlightText({
 
   const handleMouseLeave = () => {
     setOpacity(0);
+    startInactivityTimer(); // Restart cycle with standard delay
   };
 
   // Extract text string from children if it's a simple string for the beam effect

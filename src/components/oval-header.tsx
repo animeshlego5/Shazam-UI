@@ -23,6 +23,9 @@ export function OvalHeader() {
                     enableTextBeam={true}
                     className="text-xl font-bold tracking-tight text-white font-syne"
                     spotlightSize={50}
+                    enableAutoTrigger={true}
+                    autoTriggerInitialDelay={1000}
+                    autoTriggerDelay={2500}
                 >
                     NoteSpy
                 </FlashlightText>
