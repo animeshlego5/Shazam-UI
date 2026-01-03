@@ -33,12 +33,27 @@ export function FlashlightText({
   const startTimeRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
 
-  const startInactivityTimer = (delay?: number) => {
+  const startInactivityTimer = (useInitialDelay = false) => {
     if (!enableAutoTrigger) return;
     if (timerRef.current) clearTimeout(timerRef.current);
 
-    // If delay is explicitly provided, use it. Otherwise use the standard repeat delay.
-    const timeoutDuration = delay !== undefined ? delay : autoTriggerDelay;
+    let timeoutDuration: number;
+
+    if (useInitialDelay && autoTriggerInitialDelay !== undefined) {
+      timeoutDuration = autoTriggerInitialDelay;
+    } else {
+      // Synchronize to global cycle
+      const cycleDuration = autoTriggerDuration + autoTriggerDelay;
+      const now = Date.now();
+      const remainder = now % cycleDuration;
+      // Wait until the next cycle start
+      timeoutDuration = cycleDuration - remainder;
+
+      // If the calculated duration is too short (e.g. just missed the window), 
+      // we might want to skip to the next one to avoid jitter, 
+      // but usually the modulo logic is self-correcting.
+      // Ensure at least a small buffer? No, precise is better for sync.
+    }
 
     timerRef.current = setTimeout(() => {
       setIsAutoAnimating(true);
@@ -72,7 +87,7 @@ export function FlashlightText({
     } else {
       setIsAutoAnimating(false);
       setOpacity(0);
-      startInactivityTimer(); // Restart cycle with default delay
+      startInactivityTimer(false); // Restart loop with sync logic
     }
   };
 
@@ -90,9 +105,9 @@ export function FlashlightText({
 
   useEffect(() => {
     // Initial start with specific initial delay
-    startInactivityTimer(autoTriggerInitialDelay);
+    startInactivityTimer(true);
     return () => stopAutoAnimation();
-  }, [enableAutoTrigger, autoTriggerInitialDelay]);
+  }, [enableAutoTrigger, autoTriggerInitialDelay, autoTriggerDelay, autoTriggerDuration]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isAutoAnimating) {
@@ -100,9 +115,6 @@ export function FlashlightText({
     }
     // Restart timer on movement
     if (timerRef.current) clearTimeout(timerRef.current);
-    // Only restart timer if we leave logic is separate, but usually moving means active.
-    // If we want it to trigger again after hold, we set it on leave. 
-    // But let's just clear while moving.
 
     if (!containerRef.current) return;
 
@@ -113,7 +125,7 @@ export function FlashlightText({
 
   const handleMouseLeave = () => {
     setOpacity(0);
-    startInactivityTimer(); // Restart cycle with standard delay
+    startInactivityTimer(); // Will sync to next global slot
   };
 
   // Extract text string from children if it's a simple string for the beam effect
