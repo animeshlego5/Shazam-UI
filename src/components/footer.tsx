@@ -66,11 +66,21 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Copyright */}
-                <div className="mt-8 pt-6 border-t border-white/5 text-center">
-                    <p className="text-white/40 text-xs">
+                {/* Copyright & Status */}
+                <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p className="text-white/40 text-xs text-center md:text-left">
                         © {new Date().getFullYear()} Animesh Gosain. Built with Next.js & Tailwind CSS.
                     </p>
+
+                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span className="text-white/60 text-xs font-medium">
+                            Open to Internships
+                        </span>
+                    </div>
                 </div>
             </div>
         </footer>
