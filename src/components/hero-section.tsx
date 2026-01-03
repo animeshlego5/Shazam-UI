@@ -33,7 +33,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onShowTestSongs }: HeroSectionProps) {
   return (
-    <section className="relative overflow-hidden min-h-[100vh] flex flex-col justify-center [--color-primary-foreground:var(--color-white)] [--color-primary:var(--color-green-600)]">
+    <section id="hero" className="relative overflow-hidden min-h-[100vh] flex flex-col justify-center [--color-primary-foreground:var(--color-white)] [--color-primary:var(--color-green-600)]">
 
       <section className="relative z-10 w-full">
         <div className="relative mx-auto max-w-6xl px-6 pb-10 pt-10 lg:pt-20">

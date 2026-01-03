@@ -6,7 +6,7 @@ import PillNav from "@/components/PillNav";
 const navItems = [
     { label: "About", href: "#about" },
     { label: "Journey", href: "#journey" },
-    { label: "Github", href: "https://github.com/animeshlego5/Shazam-UI" },
+    { label: "Github", href: "https://github.com/animeshlego5/NoteSpy" },
 ];
 
 export function OvalHeader() {
@@ -14,6 +14,7 @@ export function OvalHeader() {
         <header className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full px-4">
             <PillNav
                 items={navItems}
+                logoHref="#hero"
                 baseColor="#000"
                 pillColor="rgba(255, 255, 255, 0.95)"
                 hoveredPillTextColor="#fff"

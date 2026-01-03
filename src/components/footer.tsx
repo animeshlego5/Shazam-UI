@@ -32,7 +32,7 @@ export default function Footer() {
                     {/* Links */}
                     <div className="flex items-center gap-6">
                         <Link
-                            href="https://github.com/animeshlego5/Shazam-UI"
+                            href="https://github.com/animeshlego5/NoteSpy"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"

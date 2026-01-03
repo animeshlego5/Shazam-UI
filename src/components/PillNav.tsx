@@ -22,6 +22,7 @@ interface PillNavProps {
     pillTextColor?: string;
     initialLoadAnimation?: boolean;
     children?: React.ReactNode; // For custom logo
+    logoHref?: string;
 }
 
 const PillNav = ({
@@ -34,7 +35,8 @@ const PillNav = ({
     hoveredPillTextColor = '#060010',
     pillTextColor,
     initialLoadAnimation = true,
-    children
+    children,
+    logoHref = '/'
 }: PillNavProps) => {
     const resolvedPillTextColor = pillTextColor ?? baseColor;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -222,14 +224,25 @@ const PillNav = ({
     return (
         <div className="pill-nav-container">
             <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
-                <Link
-                    className="pill-logo"
-                    href="/"
-                    aria-label="Home"
-                    ref={logoRef}
-                >
-                    {children}
-                </Link>
+                {isExternalLink(logoHref) ? (
+                    <a
+                        className="pill-logo"
+                        href={logoHref}
+                        aria-label="Home"
+                        ref={logoRef as any}
+                    >
+                        {children}
+                    </a>
+                ) : (
+                    <Link
+                        className="pill-logo"
+                        href={logoHref}
+                        aria-label="Home"
+                        ref={logoRef as any}
+                    >
+                        {children}
+                    </Link>
+                )}
 
                 <div className="pill-nav-items desktop-only" ref={navItemsRef}>
                     <ul className="pill-list" role="menubar">
