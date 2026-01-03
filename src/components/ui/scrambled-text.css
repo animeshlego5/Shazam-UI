@@ -4,3 +4,8 @@
     will-change: transform;
     display: inline-block;
 }
+
+.word {
+    display: inline-block;
+    white-space: nowrap;
+}

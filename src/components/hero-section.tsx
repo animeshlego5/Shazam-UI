@@ -76,15 +76,15 @@ export default function HeroSection({ onShowTestSongs }: HeroSectionProps) {
                 />
               </div>
 
-              <div className="mx-auto max-w-2xl text-pretty text-lg md:text-xl text-white/90">
+              <div className="mx-auto max-w-2xl text-pretty text-base md:text-lg text-white/90">
                 <ScrambledText
-                  className="scrambled-text-demo inline-block"
+                  className="scrambled-text-demo"
                   radius={20}
                   duration={1.2}
                   speed={0.5}
                   scrambleChars=".:"
                 >
-                  Tap “Start Recording” and let NoteSpy listen <br />
+                  Tap “Start Recording” and let NoteSpy listen.
                   We’ll tell you the song playing—fast and accurate.
                 </ScrambledText>
               </div>

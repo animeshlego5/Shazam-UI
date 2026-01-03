@@ -38,8 +38,9 @@ const ScrambledText = ({
 
         // SplitText might create nested divs? The original code splits 'p'
         const split = SplitText.create(rootRef.current.querySelector('p'), {
-            type: 'chars',
-            charsClass: 'char'
+            type: 'words,chars',
+            charsClass: 'char',
+            wordsClass: 'word'
         });
         // @ts-expect-error - GSAP types might conflict or need specific casting
         charsRef.current = split.chars;
@@ -50,6 +51,14 @@ const ScrambledText = ({
                 attr: { 'data-content': c.innerHTML }
             });
         });
+
+        // Ensure words don't break internally
+        if (split.words) {
+            gsap.set(split.words, {
+                display: 'inline-block',
+                whiteSpace: 'nowrap'
+            });
+        }
 
         const handleMove = (e: MouseEvent) => {
             charsRef.current.forEach((c) => {
