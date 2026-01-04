@@ -7,14 +7,14 @@ import JourneySection from '@/components/journey-section'
 import Footer from '@/components/footer'
 import TestSongsNote from '@/components/test-songs-note'
 import { LetterGlitch } from '@/components/ui/letter-glitch'
-import { OvalHeader } from '@/components/oval-header'
+import { GradientBorderHeader } from '@/components/headers/GradientBorderHeader'
 
 export default function Home() {
   const [isTestSongsOpen, setIsTestSongsOpen] = useState(false);
 
   return (
     <>
-      <OvalHeader />
+      <GradientBorderHeader />
       <main className="relative overflow-hidden">
         {/* Shared Letter Glitch Background */}
         <div className="fixed inset-0 pointer-events-none -z-10">
