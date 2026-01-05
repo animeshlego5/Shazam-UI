@@ -52,7 +52,7 @@ export default function TestSongsNote({
                             ))}
                         </ul>
                         <p className="text-white/30 text-xs mt-3 italic">
-                            More songs soon!
+                            More soon!
                         </p>
                     </motion.div>
                 )}

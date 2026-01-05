@@ -6,6 +6,7 @@ import AboutSection from '@/components/about-section'
 import JourneySection from '@/components/journey-section'
 import Footer from '@/components/footer'
 import TestSongsNote from '@/components/test-songs-note'
+import ScrollToTop from '@/components/scroll-to-top'
 import { LetterGlitch } from '@/components/ui/letter-glitch'
 import { GradientBorderHeader } from '@/components/headers/GradientBorderHeader'
 
@@ -36,6 +37,8 @@ export default function Home() {
         isOpen={isTestSongsOpen}
         onToggle={() => setIsTestSongsOpen(!isTestSongsOpen)}
       />
+      <ScrollToTop />
     </>
+
   )
 }
