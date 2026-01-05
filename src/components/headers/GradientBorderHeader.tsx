@@ -55,10 +55,10 @@ export function GradientBorderHeader() {
                     </motion.div>
                 </div>
 
-                {/* Logo with Flashlight Effect */}
+                {/* Logo with Flashlight Effect - hidden on mobile */}
                 <Link
                     href="#hero"
-                    className="flex items-center justify-center px-2 sm:px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+                    className="hidden sm:flex items-center justify-center px-2 sm:px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
                 >
                     <FlashlightText
                         enableTextBeam={true}
