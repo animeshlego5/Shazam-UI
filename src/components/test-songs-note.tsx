@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const testSongs = [
-    { artist: "Lil Uzi Vert", title: "20 Min" },
-    { artist: "Cartoon", title: "On & On" },
+    "We Will Rock You",
+    "Beat It",
+    "Treat You Better",
+    "20 Min",
+    "On & On",
 ];
 
 export default function TestSongsNote({
@@ -38,20 +41,18 @@ export default function TestSongsNote({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute bottom-12 right-0 w-64 bg-black/90 backdrop-blur-md border border-white/10 rounded-xl p-4 shadow-xl"
+                        className="absolute bottom-12 right-0 w-max max-w-[calc(100vw-2rem)] bg-black/90 backdrop-blur-md border border-white/10 rounded-xl p-4 shadow-xl"
                     >
                         <p className="text-white/50 text-xs mb-2">Available test songs:</p>
                         <ul className="space-y-1">
                             {testSongs.map((song, idx) => (
                                 <li key={idx} className="text-white/80 text-sm">
-                                    <span className="text-white/60">{song.artist}</span>
-                                    <span className="text-white/40 mx-1">—</span>
-                                    <span className="text-white">{song.title}</span>
+                                    <span className="text-white">{song}</span>
                                 </li>
                             ))}
                         </ul>
                         <p className="text-white/30 text-xs mt-3 italic">
-                            More songs coming soon!
+                            More songs soon!
                         </p>
                     </motion.div>
                 )}
