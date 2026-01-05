@@ -17,7 +17,7 @@ export function GradientBorderHeader() {
                 initial={{ opacity: 0, y: -20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="relative flex items-center gap-2 px-2 py-2 rounded-full"
+                className="relative flex items-center gap-1 sm:gap-2 px-1 sm:px-2 py-2 rounded-full"
             >
                 {/* Border with subtle shimmer effect */}
                 <div className="absolute inset-0 rounded-full -z-10">
@@ -58,11 +58,11 @@ export function GradientBorderHeader() {
                 {/* Logo with Flashlight Effect */}
                 <Link
                     href="#hero"
-                    className="flex items-center justify-center px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+                    className="flex items-center justify-center px-2 sm:px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
                 >
                     <FlashlightText
                         enableTextBeam={true}
-                        className="text-xl font-bold tracking-tight text-white font-syne"
+                        className="text-base sm:text-xl font-bold tracking-tight text-white font-syne"
                         spotlightSize={50}
                         enableAutoTrigger={true}
                         autoTriggerInitialDelay={1000}
@@ -72,8 +72,8 @@ export function GradientBorderHeader() {
                     </FlashlightText>
                 </Link>
 
-                {/* Divider */}
-                <div className="w-px h-6 bg-gradient-to-b from-transparent via-white/30 to-transparent" />
+                {/* Divider - hidden on mobile */}
+                <div className="hidden sm:block w-px h-6 bg-gradient-to-b from-transparent via-white/30 to-transparent" />
 
                 {/* Nav Items */}
                 <div className="flex items-center gap-1">
@@ -90,7 +90,7 @@ export function GradientBorderHeader() {
                                     href={item.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="relative px-5 py-2 rounded-full text-sm font-medium text-white/70 hover:text-white transition-all duration-300 uppercase tracking-wide overflow-hidden"
+                                    className="relative px-2 sm:px-5 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-white/70 hover:text-white transition-all duration-300 uppercase tracking-wide overflow-hidden"
                                 >
                                     <span className="relative z-10">{item.label}</span>
                                     {/* Hover gradient fill */}
@@ -104,7 +104,7 @@ export function GradientBorderHeader() {
                             ) : (
                                 <Link
                                     href={item.href}
-                                    className="relative px-5 py-2 rounded-full text-sm font-medium text-white/70 hover:text-white transition-all duration-300 uppercase tracking-wide overflow-hidden"
+                                    className="relative px-2 sm:px-5 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-white/70 hover:text-white transition-all duration-300 uppercase tracking-wide overflow-hidden"
                                 >
                                     <span className="relative z-10">{item.label}</span>
                                     {/* Hover gradient fill */}
