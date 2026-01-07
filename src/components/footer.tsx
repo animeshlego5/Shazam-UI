@@ -48,7 +48,7 @@ export default function Footer() {
                         </Link>
 
                         <Link
-                            href="https://drive.google.com/file/d/1fO0qMKSRKW-502a5E8fRiKFHmpt6Bemz/view?usp=sharing"
+                            href="https://drive.google.com/file/d/1TjJfGg7AjXVW7p34clg4zi3iuJ2xLaO0/view?usp=sharing"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
