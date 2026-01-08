@@ -61,7 +61,60 @@ Once a match is found:
 - **Reactive Navigation**: A custom `PillNav` component that uses physics-like animations to follow the active state.
 - **Mobile-First Responsiveness**: Every component is built with Tailwind's mobile-first breakpoints, ensuring a seamless experience on phones.
 
-## 6. How to Run Locally
+## 6. Security & Scalability
+
+NoteSpy implements comprehensive security measures to protect against abuse and ensure reliable service:
+
+### 🛡️ Rate Limiting
+- **IP-based throttling** prevents abuse by limiting requests per user
+- `/api/match-proxy`: 10 requests/minute (audio matching is resource-intensive)
+- `/api/itunes-search`: 30 requests/minute
+- Returns `429 Too Many Requests` with `Retry-After` header when exceeded
+- Sliding window algorithm for smooth rate limiting
+
+### 🌐 CORS Configuration
+- Strict origin validation for API endpoints
+- Allowed origins:
+  - Production: `https://notespy.vercel.app`
+  - Development: `localhost:3000`
+  - Uptime monitoring services (UptimeRobot, Cronitor, BetterUptime)
+  - Vercel preview deployments
+- Preflight request caching (24 hours)
+
+### ✅ Input Validation & Sanitization
+- **Text inputs**: Length limits, character validation, HTML/script tag removal
+- **Audio files**: Type validation (WAV, WebM, MP4, MP3), size limits (10MB max)
+- **Filename sanitization**: Path traversal prevention, dangerous character removal
+- Suspicious pattern detection (XSS attempts, event handlers)
+
+### 🔒 Security Headers (via Middleware)
+All responses include protective headers:
+- `X-Content-Type-Options: nosniff` - Prevents MIME sniffing
+- `X-Frame-Options: DENY` - Clickjacking protection
+- `X-XSS-Protection: 1; mode=block` - Legacy XSS protection
+- `Referrer-Policy: strict-origin-when-cross-origin` - Referrer control
+- `Permissions-Policy` - Restricts browser feature access
+- `Content-Security-Policy` - XSS and injection prevention (production)
+
+### ⏱️ Request Timeout Handling
+- Backend requests timeout after 30 seconds
+- iTunes API requests timeout after 10 seconds
+- Prevents resource exhaustion from slow/stuck requests
+- Returns `504 Gateway Timeout` with user-friendly message
+
+### 📋 Structured Logging
+- Request ID tracking for debugging
+- Automatic sensitive data redaction (passwords, tokens, API keys)
+- Safe error messages for clients (no internal details leaked)
+- Log levels: debug, info, warn, error
+
+### 📁 File Security
+- Maximum upload size: 10MB
+- Audio MIME type validation
+- Minimum file size check (prevents empty uploads)
+- Filename length limits (255 characters)
+
+## 7. How to Run Locally
 1. Clone the repository.
 2. Install dependencies: `npm install`.
 3. Start the dev server: `npm run dev`.
