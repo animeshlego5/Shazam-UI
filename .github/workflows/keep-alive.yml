@@ -1,0 +1,19 @@
+name: Keep Services Alive
+
+on:
+  schedule:
+    - cron: '*/14 * * * *' # Run every 14 minutes (Render spins down after 15m)
+  workflow_dispatch: # Allow manual trigger via GitHub UI
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Backend
+        run: |
+          echo "Pinging Shazam Backend..."
+          curl -I https://shazam-efve.onrender.com/
+          
+      # If you have a deployed frontend URL (e.g. on Vercel or Render), uncomment and add it here:
+      # - name: Ping Frontend
+      #   run: curl -I https://your-frontend-url.com/
